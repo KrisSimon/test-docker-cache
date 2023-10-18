@@ -23,16 +23,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run Docker
-        run: docker-compose up a
-      - name: Backup Build Cache
-        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
+
       - name: Cache Builds
         id: cache-builds
         uses: actions/cache@v3
         with:
           path: ./build-cache
           key: ${{ runner.os }}-builds
+
+      - name: Run Docker
+        run: docker-compose up a
+
+      - name: Backup Build Cache
+        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
+
   b:
     name: B Job
     needs:
