@@ -11,7 +11,7 @@ jobs:
     name: Mattermost
     runs-on: ubuntu-latest
     steps:
-      - uses: aus-der-technik/workflow-conclusion-action@v1
+      - uses: technote-space/workflow-conclusion-action@v3
       - name: Create Mattermost Message
         env:
           REPOSITORY: ${{ github.repository }}
