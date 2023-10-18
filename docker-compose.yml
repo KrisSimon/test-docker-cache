@@ -1,0 +1,40 @@
+version: '3.7'
+
+x-shared_job: &shared_job
+  image: ubuntu
+  volumes:
+    - build_data:/build/.build
+
+services:
+
+  a:
+    <<: *shared_job
+    command:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        echo "Ich bin Anton" >> /build/.build/foo
+        cat /build/.build/foo
+  b:
+    <<: *shared_job
+    command:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        cat /build/.build/foo
+        echo "Ich bin Bernd" >> /build/.build/foo
+
+  c:
+    <<: *shared_job
+    command:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        cat /build/.build/foo
+        
+volumes:
+  build_data:
+    name: test_dir_build
