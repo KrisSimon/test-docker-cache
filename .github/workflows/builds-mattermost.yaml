@@ -20,7 +20,7 @@ jobs:
           BODY: ${{ toJSON(github.event.head_commit.message) }}
           ANSWER: ${{ github.event.issue.comments_url }}
           LINK: ${{ github.event.head_commit.url }}
-          FAILURE: ${{ contains(jobs.*.result, 'failure') }}
+          FAILURE: ${{ contains(steps.*.conclusion, 'failure') }}
         shell: bash
         run: |
           AUTHOR=${ACTOR}
@@ -33,7 +33,7 @@ jobs:
           BODYLINE=$(echo ${BODY} | sed 's/^\"//g' | sed 's/\"$//g'  | sed 's/\"/\\"/g' )
           echo "
           {\"text\":
-          \"## ${ICON} ${TITLE} [${STATUS_TEXT}]\n
+          \"## ${ICON} ${TITLE} [${FAILURE}]\n
           in: [${REPOSITORY}](${REPOSITORY_URL}) by: **${AUTHOR}**\n\n
           \`\`\`text\n
           ${BODYLINE}\n
