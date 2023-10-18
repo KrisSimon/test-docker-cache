@@ -20,14 +20,15 @@ jobs:
           BODY: ${{ toJSON(github.event.head_commit.message) }}
           ANSWER: ${{ github.event.issue.comments_url }}
           LINK: ${{ github.event.head_commit.url }}
-          STATUS: ${{ job.status }}
           FAILURE: ${{ contains(needs.*.result, 'failure') }}
         shell: bash
         run: |
           AUTHOR=${ACTOR}
           ICON=":octagonal_sign:"
-          if [ "${STATUS}" == "success" ]; then
+          STATUS_TEXT="ERROR
+          if [ "${FAILURE}" == "false" ]; then
               ICON=":robot:"
+              STATUS_TEXT="OK"
           fi
           BODYLINE=$(echo ${BODY} | sed 's/^\"//g' | sed 's/\"$//g'  | sed 's/\"/\\"/g' )
           echo "
