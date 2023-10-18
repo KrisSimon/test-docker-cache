@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: mkdir
+        run: mkdir ./build-cache
 
       - name: Cache Builds
         id: cache-builds
