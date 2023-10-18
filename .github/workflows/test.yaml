@@ -18,27 +18,53 @@ jobs:
 
   a:
     name: A Job
-    needs: 
+    needs:
       - test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Run Docker
         run: docker-compose up a
-
+      - name: Backup Build Cache
+        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
+      - name: Cache Builds
+        id: cache-builds
+        uses: actions/cache@v3
+        with:
+          path: ./build-cache
+          key: ${{ runner.os }}-builds
   b:
-    name: A Job
-    needs: 
-      - a    
+    name: B Job
+    needs:
+      - a
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Restore build cache
+        id: cache-builds-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ./build-cache
+          key: ${{ runner.os }}-builds
+
+      - name: Restore Build Cache
+        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar xvf ./build-cache/uitsmijter_build.tar /build/.build
+
       - name: Run Docker
         run: docker-compose up b
+      - name: Backup Build Cache
+        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
+      - name: Store Build Cache
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-cache
+          path: |
+            ./build-cache/uitsmijter_build.tar        
 
   c:
-    name: A Job
-    needs: 
+    name: C Job
+    needs:
       - b
     runs-on: ubuntu-latest
     steps:
