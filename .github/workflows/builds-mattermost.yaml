@@ -11,6 +11,7 @@ jobs:
     name: Mattermost
     runs-on: ubuntu-latest
     steps:
+      - uses: technote-space/workflow-conclusion-action@v3
       - name: Create Mattermost Message
         env:
           REPOSITORY: ${{ github.repository }}
@@ -25,10 +26,9 @@ jobs:
         run: |
           AUTHOR=${ACTOR}
           ICON=":octagonal_sign:"
-          STATUS_TEXT="ERROR"
-          if [ "${FAILURE}" == "false" ]; then
+          STATUS_TEXT="${{ env.WORKFLOW_CONCLUSION }}"
+          if [ "${{ env.WORKFLOW_CONCLUSION }}" == "success" ]; then
               ICON=":robot:"
-              STATUS_TEXT="OK"
           fi
           BODYLINE=$(echo ${BODY} | sed 's/^\"//g' | sed 's/\"$//g'  | sed 's/\"/\\"/g' )
           echo "
