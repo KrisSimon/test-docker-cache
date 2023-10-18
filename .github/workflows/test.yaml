@@ -12,19 +12,9 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-          STATUS: ${{ toJSON(job) }}
-        run: echo "$GITHUB_CONTEXT"; echo "$STATUS"
+          JOB: ${{ toJSON(job) }}
+        run: echo "$GITHUB_CONTEXT"; echo "$JOB"
 
-  mastodon:
-    name: Notify mastodon
-    needs:
-      - test
-    if: always()
-    uses: petershaw/Test_Workflows/.github/workflows/off/builds-mastodon.yaml@main
-
-    secrets:
-      MASTODON_URL: ${{ secrets.MASTODON_URL }}
-      MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
 
   a:
     name: A Job
