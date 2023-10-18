@@ -7,10 +7,13 @@ on:
 jobs:
   test: 
     name: Test
-    run: exit 0
+    runs-on: ubuntu-latest
+    steps: 
+      run: exit 0
     
   notify_mattermost:
     name: Notify mattermost
+    runs-on: ubuntu-latest
     if: always()
     uses: uitsmijter/workflows/.github/workflows/builds-mattermost.yaml@main
     secrets:
