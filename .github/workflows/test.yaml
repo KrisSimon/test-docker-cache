@@ -14,9 +14,9 @@ jobs:
     
   notify_mattermost:
     name: Notify mattermost
-    runs-on: ubuntu-latest
+    needs: 
+      - test
     if: always()
     uses: uitsmijter/workflows/.github/workflows/builds-mattermost.yaml@main
     secrets:
       WEBHOOK: ${{ secrets.MATTERMOST_URL }}
-
