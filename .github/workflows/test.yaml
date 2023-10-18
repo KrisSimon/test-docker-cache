@@ -24,7 +24,7 @@ jobs:
     needs: 
       - test
     if: always()
-    uses: uitsmijter/workflows/.github/workflows/builds-mattermost.yaml@main
+    uses: petershaw/Test_Workflows/.github/workflows/builds-mattermost.yaml@main
     
     secrets:
       WEBHOOK: ${{ secrets.MATTERMOST_URL }}
