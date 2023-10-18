@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           AUTHOR=${ACTOR}
-          ICON="octagonal_sign:"
+          ICON=":octagonal_sign:"
           if [ "${STATUS}" == "success"]; then
               ICON=":robot:"
           fi
