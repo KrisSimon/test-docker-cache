@@ -12,10 +12,12 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-          STATUS: ${{ success() }}
+          STATUS: ${{ toJSON(job) }}
         run: echo "$GITHUB_CONTEXT"; echo "$STATUS"
       - name: "Exit"
         run: exit 0
+      - name: Status
+        run: echo "${{ job.status }}"
     
   notify_mattermost:
     name: Notify mattermost
