@@ -25,7 +25,7 @@ jobs:
         run: |
           AUTHOR=${ACTOR}
           ICON=":octagonal_sign:"
-          if [ "${STATUS}" == "success"]; then
+          if [ "${STATUS}" == "success" ]; then
               ICON=":robot:"
           fi
           BODYLINE=$(echo ${BODY} | sed 's/^\"//g' | sed 's/\"$//g'  | sed 's/\"/\\"/g' )
