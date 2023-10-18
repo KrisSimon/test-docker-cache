@@ -9,6 +9,11 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps: 
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+          STATUS: ${{ success() }}
+        run: echo "$GITHUB_CONTEXT"; echo "$STATUS"
       - name: "Exit"
         run: exit 0
     
@@ -18,5 +23,6 @@ jobs:
       - test
     if: always()
     uses: uitsmijter/workflows/.github/workflows/builds-mattermost.yaml@main
+    
     secrets:
       WEBHOOK: ${{ secrets.MATTERMOST_URL }}
