@@ -21,6 +21,7 @@ jobs:
           ANSWER: ${{ github.event.issue.comments_url }}
           LINK: ${{ github.event.head_commit.url }}
           STATUS: ${{ job.status }}
+          FAILURE: ${{ contains(needs.*.result, 'failure') }}
         shell: bash
         run: |
           AUTHOR=${ACTOR}
@@ -31,7 +32,7 @@ jobs:
           BODYLINE=$(echo ${BODY} | sed 's/^\"//g' | sed 's/\"$//g'  | sed 's/\"/\\"/g' )
           echo "
           {\"text\":
-          \"## ${ICON} ${TITLE} [${STATUS}]\n
+          \"## ${ICON} ${TITLE} [${FAILURE}]\n
           in: [${REPOSITORY}](${REPOSITORY_URL}) by: **${AUTHOR}**\n\n
           \`\`\`text\n
           ${BODYLINE}\n
