@@ -9,7 +9,8 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps: 
-      run: exit 0
+      - name: "Exit"
+        run: exit 0
     
   notify_mattermost:
     name: Notify mattermost
