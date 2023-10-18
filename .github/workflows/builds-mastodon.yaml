@@ -26,7 +26,7 @@ jobs:
           MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
         with:
           message: |
-            ${{ github.repository }} build by ${ACTOR}
-            Status: ${STATUS}
+            ${{ env.REPOSITORY }} build by ${{ env.ACTOR }}
+            Status: $${{ env.STATUS }}
           visibility: "public"
 
