@@ -20,7 +20,7 @@ jobs:
           BODY: ${{ toJSON(github.event.head_commit.message) }}
           ANSWER: ${{ github.event.issue.comments_url }}
           LINK: ${{ github.event.head_commit.url }}
-          FAILURE: ${{ contains(needs.*.result, 'failure') }}
+          FAILURE: ${{ contains(jobs.*.result, 'failure') }}
         shell: bash
         run: |
           AUTHOR=${ACTOR}
