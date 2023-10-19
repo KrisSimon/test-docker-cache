@@ -54,12 +54,16 @@ jobs:
         with:
           volume: test_dir_build
 
-#  c:
-#    name: C Job
-#    needs:
-#      - b
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Run Docker
-#        run: docker-compose up c
+  c:
+    name: C Job
+    needs:
+      - b
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache Volumes
+        uses: ./.github/actions/docker-volume-cache/read
+        with:
+          volume: test_dir_build
+      - name: Run Docker
+        run: docker-compose up c
