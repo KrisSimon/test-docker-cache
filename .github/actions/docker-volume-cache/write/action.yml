@@ -21,8 +21,8 @@ runs:
   steps:
     - name: Set current date as env variable
       shell: sh
-      run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-    
+      run: echo "NOW=$(date +'%s')" >> $GITHUB_ENV
+
     - name: Cache
       uses: actions/cache@v3
       with:
@@ -31,7 +31,7 @@ runs:
         restore-keys: |
           volume-${{ inputs.volume }}-${{ github.run_id }}
 
-    - name: Archive Date Form The Volume
+    - name: Archive data form the volume
       shell: sh
       run: |
         mkdir -p ${TARGET_PATH}
