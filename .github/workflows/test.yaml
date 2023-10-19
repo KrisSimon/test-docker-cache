@@ -30,7 +30,7 @@ jobs:
         run: docker-compose up a
 
       - name: Cache Volumes
-        uses: KrisSimon/action-docker-volume-cache@main
+        uses: ./.github/actions/docker-volume-cache #KrisSimon/action-docker-volume-cache@main
         with:
           volume: test_dir_build
 
