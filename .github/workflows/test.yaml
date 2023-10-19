@@ -13,11 +13,21 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
           JOB_CONTEXT: ${{ toJSON(job) }}
+          JOBS_CONTEXT: ${{ toJSON(jobs) }}
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+
         run: |
+          echo "GITHUB:"
           echo "$GITHUB_CONTEXT" 
+          echo "JOB:"
           echo "$JOB_CONTEXT"
-
-
+          echo "JOBS:"
+          echo "$JOBS_CONTEXT"
+          echo "STEPS:"
+          echo "$STEPS_CONTEXT"
+          echo "STRATEGY:"
+          echo "$STRATEGY_CONTEXT"
   a:
     name: A Job
     needs:
