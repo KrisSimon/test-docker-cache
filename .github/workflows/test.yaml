@@ -12,8 +12,10 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
-          JOB: ${{ toJSON(job) }}
-        run: echo "$GITHUB_CONTEXT"; echo "$JOB"
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: |
+          echo "$GITHUB_CONTEXT" 
+          echo "$JOB_CONTEXT"
 
 
   a:
@@ -26,54 +28,49 @@ jobs:
       - name: mkdir
         run: mkdir ./build-cache
 
-      - name: Cache Builds
-        id: cache-builds
-        uses: actions/cache@v3
-        with:
-          path: ./build-cache
-          key: ${{ runner.os }}-builds
-
       - name: Run Docker
         run: docker-compose up a
 
-      - name: Backup Build Cache
-        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
-
-  b:
-    name: B Job
-    needs:
-      - a
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Restore build cache
-        id: cache-builds-restore
-        uses: actions/cache/restore@v3
+      - name: Cache Volumes
+        uses: KrisSimon/action-docker-volume-cache@main
         with:
-          path: |
-            ./build-cache
-          key: ${{ runner.os }}-builds
+          volume: build_data
 
-      - name: Restore Build Cache
-        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar xvf ./build-cache/uitsmijter_build.tar /build/.build
-
-      - name: Run Docker
-        run: docker-compose up b
-      - name: Backup Build Cache
-        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
-      - name: Store Build Cache
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-cache
-          path: |
-            ./build-cache/uitsmijter_build.tar        
-
-  c:
-    name: C Job
-    needs:
-      - b
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run Docker
-        run: docker-compose up c
+#  b:
+#    name: B Job
+#    needs:
+#      - a
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Restore build cache
+#        id: cache-builds-restore
+#        uses: actions/cache/restore@v3
+#        with:
+#          path: |
+#            ./build-cache
+#          key: ${{ runner.os }}-builds
+#
+#      - name: Restore Build Cache
+#        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar xvf ./build-cache/uitsmijter_build.tar /build/.build
+#
+#      - name: Run Docker
+#        run: docker-compose up b
+#      - name: Backup Build Cache
+#        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
+#      - name: Store Build Cache
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: build-cache
+#          path: |
+#            ./build-cache/uitsmijter_build.tar
+#
+#  c:
+#    name: C Job
+#    needs:
+#      - b
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Run Docker
+#        run: docker-compose up c
