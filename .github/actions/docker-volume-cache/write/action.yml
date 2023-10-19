@@ -1,5 +1,5 @@
-name: "Docker Volume Cache [write]"
-description: "Saves docker volumes"
+name: "Docker Volume Cache [read]"
+description: "Restores docker volumes"
 author: "aus der Technik"
 
 inputs:
@@ -19,23 +19,25 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: volume-${{ inputs.volume }}
-        path: ${{ inputs.path }}
-        if-no-files-found: error
-
-    - name: Restore data into the Volume
+    - name: Archive Date Form The Volume
       shell: sh
       run: |
+        mkdir -p ${TARGET_PATH}
         docker run --rm \
           -v "${VOLUME_NAME}":/data \
           -v "${PWD}/${TARGET_PATH}":/backup \
           ubuntu \
-          tar xvf /backup/${VOLUME_NAME}.tar /data
+          tar cvf /backup/${VOLUME_NAME}.tar /data
+        ls -la .
+        ls -la ${TARGET_PATH}
       env:
         VOLUME_NAME: ${{ inputs.volume }}
         TARGET_PATH: ${{ inputs.path }}
 
-
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: volume-${{ inputs.volume }}
+        path: ${{ inputs.path }}/**
+        retention-days: ${{ inputs.retention-days }}
+        if-no-files-found: error
