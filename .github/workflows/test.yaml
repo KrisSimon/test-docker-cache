@@ -30,39 +30,30 @@ jobs:
         run: docker-compose up a
 
       - name: Cache Volumes
-        uses: ./.github/actions/docker-volume-cache #KrisSimon/action-docker-volume-cache@main
+        uses: ./.github/actions/docker-volume-cache/write
         with:
           volume: test_dir_build
 
-#  b:
-#    name: B Job
-#    needs:
-#      - a
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Restore build cache
-#        id: cache-builds-restore
-#        uses: actions/cache/restore@v3
-#        with:
-#          path: |
-#            ./build-cache
-#          key: ${{ runner.os }}-builds
-#
-#      - name: Restore Build Cache
-#        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar xvf ./build-cache/uitsmijter_build.tar /build/.build
-#
-#      - name: Run Docker
-#        run: docker-compose up b
-#      - name: Backup Build Cache
-#        run: docker run --rm -v build_data:/build/.build -v $(pwd):/build-cache ubuntu tar cvf ./build-cache/uitsmijter_build.tar /build/.build
-#      - name: Store Build Cache
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: build-cache
-#          path: |
-#            ./build-cache/uitsmijter_build.tar
-#
+  b:
+    name: B Job
+    needs:
+      - a
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache Volumes
+        uses: ./.github/actions/docker-volume-cache/read
+        with:
+          volume: test_dir_build
+
+      - name: Run Docker
+        run: docker-compose up b
+
+      - name: Cache Volumes
+        uses: ./.github/actions/docker-volume-cache/write
+        with:
+          volume: test_dir_build
+
 #  c:
 #    name: C Job
 #    needs:
