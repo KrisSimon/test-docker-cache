@@ -33,15 +33,13 @@ runs:
 
     - name: Archive data form the volume
       shell: sh
+      env:
+        VOLUME_NAME: ${{ inputs.volume }}
+        TARGET_PATH: ${{ inputs.path }}
       run: |
         mkdir -p ${TARGET_PATH}
         docker run --rm \
           -v "${VOLUME_NAME}":/data \
           -v "${PWD}/${TARGET_PATH}":/backup \
           ubuntu \
-          tar cvf /backup/${VOLUME_NAME}.tar /data
-        ls -la .
-        ls -la ${TARGET_PATH}
-      env:
-        VOLUME_NAME: ${{ inputs.volume }}
-        TARGET_PATH: ${{ inputs.path }}
+          tar cf /backup/${VOLUME_NAME}.tar /data
