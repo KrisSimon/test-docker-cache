@@ -25,7 +25,7 @@ runs:
         path: ${{ inputs.path }}
         key: volume-${{ inputs.volume }}-${{ github.run_id }}
         restore-keys: |
-          volume-${{ inputs.volume }}-${{ github.run_id }}
+          volume-${{ inputs.volume }}
 
     - name: Restore data into the Volume
       shell: sh
