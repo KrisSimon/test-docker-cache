@@ -15,6 +15,7 @@ services:
       - |
         set -e
         echo "Ich bin Anton" >> /build/.build/foo
+        echo "Ind ich bin die Annika" >> /build/.build/foo
         cat /build/.build/foo
   b:
     <<: *shared_job
