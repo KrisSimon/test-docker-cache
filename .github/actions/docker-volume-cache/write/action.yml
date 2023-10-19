@@ -27,7 +27,7 @@ runs:
           -v "${VOLUME_NAME}":/data \
           -v "${PWD}/${TARGET_PATH}":/backup \
           ubuntu \
-          tar cvf /backup/${VOLUME_NAME}.tar /data
+          tar cvf /backup/${VOLUME_NAME}.tar --directory /data
         ls -la .
         ls -la ${TARGET_PATH}
       env:
