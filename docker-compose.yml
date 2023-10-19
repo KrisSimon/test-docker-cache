@@ -3,7 +3,7 @@ version: '3.7'
 x-shared_job: &shared_job
   image: ubuntu
   volumes:
-    - build_data:/build/.build
+    - test_dir_build:/build/.build
 
 services:
 
@@ -34,7 +34,7 @@ services:
       - |
         set -e
         cat /build/.build/foo
-        
+
 volumes:
-  build_data:
+  test_dir_build:
     name: test_dir_build
