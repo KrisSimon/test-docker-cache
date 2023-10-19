@@ -35,7 +35,7 @@ runs:
           -v "${VOLUME_NAME}":/data \
           -v "${PWD}/${TARGET_PATH}":/backup \
           ubuntu \
-          tar xvf /backup/${VOLUME_NAME}.tar --directory /data
+          tar xvf /backup/${VOLUME_NAME}.tar --directory /
       env:
         VOLUME_NAME: ${{ inputs.volume }}
         TARGET_PATH: ${{ inputs.path }}
