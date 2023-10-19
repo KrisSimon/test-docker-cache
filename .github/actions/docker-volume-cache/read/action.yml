@@ -19,11 +19,13 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Download artifact
-      uses: actions/cache/restore@v3
+    - name: Cache
+      uses: actions/cache@v3
       with:
-        key: volume-${{ inputs.volume }}
         path: ${{ inputs.path }}
+        key: volume-${{ inputs.volume }}-${{ github.run_id }}
+        restore-keys: |
+          volume-${{ inputs.volume }}
 
     - name: Restore data into the Volume
       shell: sh
