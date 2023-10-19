@@ -20,9 +20,9 @@ runs:
   using: composite
   steps:
     - name: Download artifact
-      uses: actions/download-artifact@v3
+      uses: actions/cache/restore@v3
       with:
-        name: volume-${{ inputs.volume }}
+        key: volume-${{ inputs.volume }}
         path: ${{ inputs.path }}
 
     - name: Restore data into the Volume
