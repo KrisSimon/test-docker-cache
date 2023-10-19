@@ -28,6 +28,9 @@ runs:
     - name: Restore data into the Volume
       shell: sh
       run: |
+        ls -la .
+        ls -la ${TARGET_PATH}
+        
         docker run --rm \
           -v "${VOLUME_NAME}":/data \
           -v "${PWD}/${TARGET_PATH}":/backup \

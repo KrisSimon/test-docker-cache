@@ -23,6 +23,9 @@ services:
       - -c
       - |
         set -e
+        ls -la /
+        ls -la /build
+        ls -la /build/.build
         cat /build/.build/foo
         echo "Ich bin Bernd" >> /build/.build/foo
 
