@@ -23,9 +23,9 @@ runs:
       uses: actions/cache@v3
       with:
         path: ${{ inputs.path }}
-        key: volume-${{ inputs.volume }}-${{ github.run_id }}
+        key: volume-${{ inputs.volume }}-${{ github.run_id }}-2
         restore-keys: |
-          volume-${{ inputs.volume }}
+          volume-${{ inputs.volume }}-${{ github.run_id }}
 
     - name: Restore data into the Volume
       shell: sh
