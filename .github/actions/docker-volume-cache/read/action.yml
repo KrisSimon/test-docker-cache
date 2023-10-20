@@ -37,10 +37,12 @@ runs:
         VOLUME_NAME: ${{ inputs.volume }}
         TARGET_PATH: ${{ inputs.path }}
       run: |
+        if [ -f "${PWD}/${VOLUME_NAME}.tar" ]; then
         docker run --rm \
           -v "${VOLUME_NAME}":/data \
           -v "${PWD}/${TARGET_PATH}":/backup \
           ubuntu \
           tar xf /backup/${VOLUME_NAME}.tar --directory /
+        fi
 
 
