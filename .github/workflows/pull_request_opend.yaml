@@ -1,0 +1,19 @@
+name: Pull Request Notify
+on:
+  pull_request:
+    types:
+      - opened
+
+
+jobs:
+  notify_mattermost:
+    name: Notify Mattermost
+    permissions:
+      contents: read
+      statuses: read
+      actions: read
+      repository-projects: read
+    if: always()
+    uses: uitsmijter/workflows/.github/workflows/pullrequest-mattermost.yaml@main
+    secrets:
+      WEBHOOK: ${{ secrets.MATTERMOST_WEBHOOK }}
