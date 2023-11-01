@@ -9,7 +9,7 @@ on:
   release:
     types:
       - published
-      
+
 jobs:
   test:
     name: Test
@@ -22,6 +22,7 @@ jobs:
           STEPS_CONTEXT: ${{ toJSON(steps) }}
           STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
           NEEDS_CONTEXT: ${{ toJSON(needs) }}
+          ENV_CONTEXT: ${{ toJSON(env) }}
 
         run: |
           echo "GITHUB:"
@@ -34,6 +35,8 @@ jobs:
           echo "$STRATEGY_CONTEXT"
           echo "NEEDS:"
           echo "$NEEDS_CONTEXT"
+          echo "ENVS:"
+          echo "$ENV_CONTEXT"
   a:
     name: A Job
     needs:
