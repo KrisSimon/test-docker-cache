@@ -37,6 +37,7 @@ jobs:
           echo "$NEEDS_CONTEXT"
           echo "ENVS:"
           echo "$ENV_CONTEXT"
+          env
   a:
     name: A Job
     needs:
